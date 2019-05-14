@@ -1,0 +1,59 @@
+# Compile something from source
+
+- name: "Include vars for application and distribution"
+  include_vars:
+    file: "{{ item }}"
+  with_items: 
+    - "vars/{{ ansible_os_family }}.yml"
+    - "vars/{{ app_to_compile }}.yml"
+
+- name: "Include pre-compile tasks for {{ app_to_compile }}"
+  include_tasks: "{{ app_to_compile }}/pre.yml"
+  when: pre_compile_tasks == true
+
+- name: "Install build tools"
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ build_prereqs }}"
+
+- name: "Create compile directory at {{ compile_dir }}"
+  file:
+    path: "{{ compile_dir }}"
+    state: directory
+
+- name: "Download {{ app_to_compile }} source"
+  get_url:
+    url: "{{ source_url_prefix }}{{ source_filename }}"
+    dest: "{{ compile_dir }}"
+
+- name: "Unarchive {{ app_to_compile }} source"
+  unarchive:
+    src: "{{ compile_dir }}{{ source_filename }}"
+    dest: "{{ compile_dir }}"
+    remote_src: yes
+
+- name: "Run configure command"
+  shell: "{{ configure_command }}"
+  args:
+    chdir: "{{ compile_dir }}/{{ extracted_dir }}" 
+  when: configure_command is defined
+
+- name: "Build {{ app_to_compile }}"
+  make:
+    chdir: "{{ compile_dir }}/{{ extracted_dir }}"
+
+- name: "Install {{ app_to_compile }}"
+  make:
+    chdir: "{{ compile_dir }}/{{ extracted_dir }}"
+    target: install
+  become: yes
+
+- name: "Include post-compile tasks for {{ app_to_compile }}"
+  include_tasks: "{{ app_to_compile }}/post.yml"
+  when: post_compile_tasks == "yes"
+
+- name: "Remove source files"
+  file:
+    path: "{{ compile_dir }}"
+    state: absent

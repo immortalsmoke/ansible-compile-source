@@ -1,0 +1,4 @@
+# Debian-family Linux requirements for compiling stuff from source
+
+build_prereqs:
+- build-essential

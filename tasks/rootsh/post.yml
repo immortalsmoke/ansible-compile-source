@@ -1,0 +1,22 @@
+# This installs rootsh and our gain.sh wrapper
+
+
+# Compile rootsh from source and install
+
+
+- name: "Gainroot | Create scripts dir"
+  file:
+    path: /scripts/
+    state: directory
+
+- name: "Gainroot | Copy gain.sh to scripts dir"
+  copy:
+    src: gain.sh
+    dest: /scripts/gain.sh
+    mode: 0754
+
+- name: "Gainroot | Create symlink to gain.sh at /usr/local/bin/gain"
+  file:
+    path: /usr/local/bin/gain
+    src: /scripts/gain.sh
+    state: link

@@ -1,0 +1,33 @@
+# This is a template yml file explaining the parameters used by this role.
+# For the example below, we'll be compiling this application:
+#   Name:               coolwidget
+#   Download URL:       https://neatstuff.com/downloads/coolwidget-1.0.5.tar.gz
+
+#app_to_compile: coolwidget     #This variable does NOT belong here, but should instead be defined at the top level (main playbook, group_vars, or host_vars)
+                                # It will get passed down to the role when the role is called
+                                # It is an arbitrary friendly name for the application you are compiling
+
+#compile_dir: "/tmp/{{ app_to_compile }}/"              #This directory is created to hold the source tarball
+#extracted_dir: "coolwidget-1.0.5"                      #If a folder is created when the source tarball is extracted, put that folder name here
+#source_url_prefix: https://neatstuff.com/downloads/    #The URL to download the source minus the filename 
+#source_filename: coolwidget-1.0.5.tar.gz               #The filename portion of the URL
+#dependencies:                                          #Uncomment and populate with a list of any dependencies for the app you're compiling
+# - somelibrary
+# - someapplication
+#configure_command: ./configure                         #Pre-make configure command goes here if you have one 
+#make_params:                                           #Make parameters go here
+#pre_compile_tasks: yes                                 #If you need to execute additional tasks before or after compiling, set these to "yes"
+#post_compile_tasks: yes                                # and put the tasks in tasks/{{ app_to_compile }}-pre.yml or -post.yml
+
+
+compile_dir: "/tmp/{{ app_to_compile }}/"
+extracted_dir: ""
+source_url_prefix:                              
+source_filename: 
+#dependencies:
+configure_command: 
+make_params:
+additional_tasks: 
+pre_compile_tasks: no
+post_compile_tasks: no
+

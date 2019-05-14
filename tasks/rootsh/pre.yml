@@ -1,0 +1,9 @@
+# rootsh compile pre-tasks
+
+- name: "Create directory /var/log/rootsh"
+  file:
+    path: /var/log/rootsh
+    state: directory
+    mode: 0777
+
+

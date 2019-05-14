@@ -1,0 +1,11 @@
+# rootsh-specific variables
+
+compile_dir: "/tmp/{{ app_to_compile }}/"
+extracted_dir: "rootsh-1.5.3"
+source_url_prefix: https://fossies.org/linux/privat/
+source_filename: rootsh-1.5.3.tar.xz
+dependencies:
+configure_command: ./configure --disable-syslog --disable-linenumbering --with-logdir=/var/log/rootsh
+make_params:
+pre_compile_tasks: true
+post_compile_tasks: yes
